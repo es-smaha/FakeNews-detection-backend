@@ -26,6 +26,7 @@ class Operation(models.Model):
 class FakeContent(models.Model):
     content = models.CharField(max_length=100)
     result = models.CharField(max_length=50)
+    opr= models.CharField(max_length=50)
    
 
     def __str__(self):

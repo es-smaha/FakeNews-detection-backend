@@ -21,6 +21,7 @@ import pandas as pd
 import pandas as pd
 from .models import *
 from .Training import *
+from .modelesentiment import *
 
 class TextType(DjangoObjectType): 
     class Meta:
@@ -133,14 +134,22 @@ class CreateOperation(graphene.Mutation):
 class CreateFake(graphene.Mutation):
     class Arguments:
          content = graphene.String()
+         opr = graphene.String()
         
          
     #result
     opera= graphene.Field(FakeType)
-    def mutate(self, info, content):
-        result= getFake(content)
-        opera =  FakeContent(content = content, result = result   )
+    def mutate(self, info, content,opr):
+        if(opr == '1'):
+           result= getFake(content)
+           opera =  FakeContent(content = content, result = result   )
+          
+        else :
+            result= analysentiment(content)
+            opera =  FakeContent(content = content, result = result   )
+
         opera.save()
+
         return CreateFake(opera = opera)
 
 class Mutation(graphene.ObjectType):
